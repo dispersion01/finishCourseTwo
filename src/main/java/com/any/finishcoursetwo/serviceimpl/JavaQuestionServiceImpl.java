@@ -2,14 +2,10 @@ package com.any.finishcoursetwo.serviceimpl;
 
 import com.any.finishcoursetwo.exception.QuestionExistsException;
 import com.any.finishcoursetwo.model.Question;
-import org.apache.catalina.LifecycleState;
 import org.springframework.stereotype.Service;
 import com.any.finishcoursetwo.service.QuestionService;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.IntStream.range;
 
 @Service
 public class JavaQuestionServiceImpl implements QuestionService {
@@ -53,7 +49,7 @@ public class JavaQuestionServiceImpl implements QuestionService {
         if (!questionMap.isEmpty()) {
             return Collections.unmodifiableCollection(questionMap.values());
         } else {
-            throw new QuestionExistsException("Список вопросов пуст");
+            throw new QuestionExistsException();
         }
     }
 
