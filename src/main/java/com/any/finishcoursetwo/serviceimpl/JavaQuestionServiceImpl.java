@@ -9,13 +9,14 @@ import java.util.*;
 
 @Service
 public class JavaQuestionServiceImpl implements QuestionService {
-    private final Map<String, Question> questionMap = new HashMap<>();
+    private final Set<Question> questionMap = new HashSet<>();
 
     public JavaQuestionServiceImpl() {
     }
 
     public boolean getQuestionInSet(String key) {
-        return questionMap.containsKey(key);
+
+        return questionMap.contains(key);
     }
 
     @Override
@@ -23,7 +24,7 @@ public class JavaQuestionServiceImpl implements QuestionService {
         Question addedQuestion = new Question(question, answer);
         String key = question + " " + answer;
         if (!getQuestionInSet(key)) {
-            questionMap.put(key, addedQuestion);
+            questionMap.add(addedQuestion);
             return addedQuestion;
         } else {
             throw new QuestionExistsException("Вопрос не добавлен в список");
@@ -45,9 +46,8 @@ public class JavaQuestionServiceImpl implements QuestionService {
 
     @Override
     public Collection<Question> getAll() {
-
         if (!questionMap.isEmpty()) {
-            return Collections.unmodifiableCollection(questionMap.values());
+            return questionMap;
         } else {
             throw new QuestionExistsException();
         }
@@ -56,7 +56,8 @@ public class JavaQuestionServiceImpl implements QuestionService {
     @Override
     public Question getRandomQuestion() {
         Random random = new Random();
-        Question randomQuestion = questionMap.get(random.nextInt(questionMap.size()));
+        List<Question> questionList = new ArrayList<>(questionMap);
+        Question randomQuestion = questionList.get(random.nextInt(questionMap.size()));
         return randomQuestion;
     }
 }
