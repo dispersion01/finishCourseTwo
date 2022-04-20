@@ -1,10 +1,7 @@
 package com.any.finishcoursetwo.controller;
 
 import com.any.finishcoursetwo.model.Question;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.any.finishcoursetwo.service.ExaminerService;
 
 import java.util.Collection;
@@ -17,9 +14,9 @@ public class ExamController {
     public ExamController(ExaminerService examinerService) {
         this.examinerService = examinerService;
     }
-    @GetMapping ("get")
-    public Collection<Question> getQuestion(@RequestParam int amount ) {
 
+    @GetMapping("/{amount}")
+    public Collection<Question> getQuestion(@PathVariable int amount) {
         return examinerService.getQuestions(amount);
     }
 }

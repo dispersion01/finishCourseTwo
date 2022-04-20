@@ -21,6 +21,6 @@ class ExaminerServiceImplTest {
     @Test
     public void shouldCheckAmountQuestionException() {
         when(questionService.getAll()).thenReturn(ConstantsTest.QUESTIONS);
-        assertThrows(TooLargeAmountQuestionException.class, () -> out.getQuestions(6));
+        assertThrows(TooLargeAmountQuestionException.class, () -> out.getQuestions(10));
     }
 }

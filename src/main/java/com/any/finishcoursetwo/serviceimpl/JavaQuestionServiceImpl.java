@@ -5,29 +5,29 @@ import com.any.finishcoursetwo.model.Question;
 import org.springframework.stereotype.Service;
 import com.any.finishcoursetwo.service.QuestionService;
 
+import javax.swing.*;
 import java.util.*;
 
 @Service
 public class JavaQuestionServiceImpl implements QuestionService {
-    private final Set<Question> questionMap = new HashSet<>();
+    private final Set<Question> questionSet = new HashSet<>();
 
     public JavaQuestionServiceImpl() {
     }
 
-    public boolean getQuestionInSet(String key) {
-
-        return questionMap.contains(key);
+    private boolean getQuestionInSet(String question, String answer) {
+        Question questionKey = new Question(question, answer);
+        return questionSet.contains(questionKey);
     }
 
     @Override
     public Question add(String question, String answer) {
         Question addedQuestion = new Question(question, answer);
-        String key = question + " " + answer;
-        if (!getQuestionInSet(key)) {
-            questionMap.add(addedQuestion);
+        if (!getQuestionInSet(question, answer)) {
+            questionSet.add(addedQuestion);
             return addedQuestion;
         } else {
-            throw new QuestionExistsException("Вопрос не добавлен в список");
+            throw new QuestionExistsException();
         }
     }
 
@@ -35,19 +35,18 @@ public class JavaQuestionServiceImpl implements QuestionService {
     @Override
     public Question remove(String question, String answer) {
         Question removedQuestion = new Question(question, answer);
-        String key = question + " " + answer;
-        if (getQuestionInSet(key)) {
-            questionMap.remove(key);
+        if (getQuestionInSet(question, answer)) {
+            questionSet.remove(removedQuestion);
             return removedQuestion;
         } else {
-            throw new QuestionExistsException("Нет в списке");
+            throw new QuestionExistsException("Вопрос уже удален");
         }
     }
 
     @Override
     public Collection<Question> getAll() {
-        if (!questionMap.isEmpty()) {
-            return questionMap;
+        if (!questionSet.isEmpty()) {
+            return questionSet;
         } else {
             throw new QuestionExistsException();
         }
@@ -56,8 +55,8 @@ public class JavaQuestionServiceImpl implements QuestionService {
     @Override
     public Question getRandomQuestion() {
         Random random = new Random();
-        List<Question> questionList = new ArrayList<>(questionMap);
-        Question randomQuestion = questionList.get(random.nextInt(questionMap.size()));
+        List<Question> questionList = new ArrayList<>(questionSet);
+        Question randomQuestion = questionList.get(random.nextInt(questionSet.size()));
         return randomQuestion;
     }
 }

@@ -11,10 +11,10 @@ import java.util.Collection;
 
 @Service
 public class ExaminerServiceImpl implements ExaminerService {
-    private final QuestionService questionServiceExaminer;
+    private final QuestionService questionService;
 
     public ExaminerServiceImpl(QuestionService questionServiceExaminer) {
-        this.questionServiceExaminer = questionServiceExaminer;
+        this.questionService = questionServiceExaminer;
     }
 
 
@@ -22,19 +22,18 @@ public class ExaminerServiceImpl implements ExaminerService {
     public Collection<Question> getQuestions(int amount) {
         Collection<Question> questionCollection = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
-            questionCollection.add(questionServiceExaminer.getRandomQuestion());
+            questionCollection.add(questionService.getRandomQuestion());
         }
-        int a = 5;
-        if (amount <= a) {
+//        int a = 5;
+/*        if (amount <= questionCollection.size()) {
                         return questionCollection;
         } else {
             throw new TooLargeAmountQuestionException();
-        }
-/*        Collection<Question> questionCollection = new ArrayList<>();
-        while (questionCollection.size()<amount){
-            questionCollection.add(questionServiceExaminer.getRandomQuestion());
+        }*/
+//        Collection<Question> questionCollection = new ArrayList<>();
+        while (amount > questionCollection.size()){
+            throw new TooLargeAmountQuestionException();
         }
         return questionCollection;
-    */
     }
 }
